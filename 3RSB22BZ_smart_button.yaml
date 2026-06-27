@@ -1,0 +1,87 @@
+blueprint:
+  name: (ZHA) ThirdReality Button - 3RSB22BZ Multi-Action
+  description: >
+    Trigger three configurable actions from a single button ZHA device based on
+    single press, double press, hold, and release actions. Originally designed for Third Reality Smart Button Model: 3RSB22BZ set up in ZHA.
+  domain: automation
+  author: Rodney Smith
+  source_url: https://community.home-assistant.io/t/third-reality-smart-button-model-3rsb22bz-configurable-automation/993226
+  input:
+    button_device:
+      name: Button Device
+      description: The ZHA device for your button.
+      selector:
+        device:
+          integration: zha
+          manufacturer: Third Reality, Inc
+          model: 3RSB22BZ
+          multiple: false
+    action_single:
+      name: Single Press Action
+      description: Action to run when the button is pressed once.
+      default: []
+      selector:
+        action:
+    action_double:
+      name: Double Press Action
+      description: Action to run when the button is pressed twice.
+      default: []
+      selector:
+        action:
+    action_hold:
+      name: Hold Action
+      description: Action to run when the button is held down.
+      default: []
+      selector:
+        action:
+    action_release:
+      name: Release Action
+      description: Action to run when the button is released.
+      default: []
+      selector:
+        action:
+mode: single
+triggers:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      device_id: !input button_device
+      command: single
+    id: single
+  - platform: event
+    event_type: zha_event
+    event_data:
+      device_id: !input button_device
+      command: double
+    id: double
+  - platform: event
+    event_type: zha_event
+    event_data:
+      device_id: !input button_device
+      command: hold
+    id: hold
+  - platform: event
+    event_type: zha_event
+    event_data:
+      device_id: !input button_device
+      command: release
+    id: release
+conditions: []
+actions:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: single
+        sequence: !input action_single
+      - conditions:
+          - condition: trigger
+            id: double
+        sequence: !input action_double
+      - conditions:
+          - condition: trigger
+            id: hold
+        sequence: !input action_hold
+      - conditions:
+          - condition: trigger
+            id: release
+        sequence: !input action_release
