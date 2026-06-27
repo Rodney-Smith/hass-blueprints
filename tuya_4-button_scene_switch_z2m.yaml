@@ -1,0 +1,132 @@
+blueprint:
+  name: (Z2M) Tuya 4-Button Scene Switch (TS0044)
+  description: Automate your Tuya 4-Button Scene Switch using Zigbee2MQTT actions.
+  domain: automation
+  author: Rodney Smith
+  source_url: https://gist.github.com/Rodney-Smith/ab266e1e9b6d9d8baeb991d11227d3d8
+
+  input:
+    action_sensor:
+      name: Zigbee2MQTT Action Sensor
+      description: Select the Z2M action sensor for the TS0044 switch.
+      selector:
+        entity:
+          integration: mqtt
+          domain: sensor
+
+    button_one_short_press:
+      name: Button 1 — single press
+      default: []
+      selector:
+        action: {}
+
+    button_one_double_press:
+      name: Button 1 — double press
+      default: []
+      selector:
+        action: {}
+
+    button_one_long_press:
+      name: Button 1 — long press
+      default: []
+      selector:
+        action: {}
+
+    button_two_short_press:
+      name: Button 2 — single press
+      default: []
+      selector:
+        action: {}
+
+    button_two_double_press:
+      name: Button 2 — double press
+      default: []
+      selector:
+        action: {}
+
+    button_two_long_press:
+      name: Button 2 — long press
+      default: []
+      selector:
+        action: {}
+
+    button_three_short_press:
+      name: Button 3 — single press
+      default: []
+      selector:
+        action: {}
+
+    button_three_double_press:
+      name: Button 3 — double press
+      default: []
+      selector:
+        action: {}
+
+    button_three_long_press:
+      name: Button 3 — long press
+      default: []
+      selector:
+        action: {}
+
+    button_four_short_press:
+      name: Button 4 — single press
+      default: []
+      selector:
+        action: {}
+
+    button_four_double_press:
+      name: Button 4 — double press
+      default: []
+      selector:
+        action: {}
+
+    button_four_long_press:
+      name: Button 4 — long press
+      default: []
+      selector:
+        action: {}
+
+mode: restart
+max_exceeded: silent
+
+trigger:
+  - platform: state
+    entity_id: !input action_sensor
+
+variables:
+  action: "{{ trigger.to_state.state }}"
+
+action:
+  - choose:
+
+      # Button 1
+      - conditions: "{{ action == '1_single' }}"
+        sequence: !input button_one_short_press
+      - conditions: "{{ action == '1_double' }}"
+        sequence: !input button_one_double_press
+      - conditions: "{{ action == '1_hold' }}"
+        sequence: !input button_one_long_press
+
+      # Button 2
+      - conditions: "{{ action == '2_single' }}"
+        sequence: !input button_two_short_press
+      - conditions: "{{ action == '2_double' }}"
+        sequence: !input button_two_double_press
+      - conditions: "{{ action == '2_hold' }}"
+        sequence: !input button_two_long_press
+
+      # Button 3
+      - conditions: "{{ action == '3_single' }}"
+        sequence: !input button_three_short_press
+      - conditions: "{{ action == '3_double' }}"
+        sequence: !input button_three_double_press
+      - conditions: "{{ action == '3_hold' }}"
+        sequence: !input button_three_long_press
+
+      # Button 4
+      - conditions: "{{ action == '4_single' }}"
+        sequence: !input button_four_short_press
+      - conditions: "{{ action == '4_double' }}"
+        sequence: !input button_four_double_press
+      - conditions: "{{ action == '4_hold' }}"
+        sequence: !input button_four_long_press
