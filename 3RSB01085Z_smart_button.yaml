@@ -2,7 +2,7 @@ blueprint:
   name: (ZHA) ThirdReality Button - 3RSB01085Z Multi-Button Multi-Action
   description: >
     Trigger three configurable actions from a three button ZHA device based on
-    single press, double press, hold, and release actions. Originally designed for Third Reality Smart Button Model: 3RSB01085Z set up in ZHA.
+    single press, double press, and hold (long press) actions. Designed for Third Reality Smart Button Model: 3RSB01085Z set up in ZHA.
   domain: automation
   author: Rodney Smith
   source_url: https://gist.github.com/Rodney-Smith/b09398bef9883f38c84eedbd03ad422d
@@ -101,7 +101,7 @@ action:
         sequence: !input button_two_double_press
       - conditions: '{{ endpoint_id == 3 }}'
         sequence: !input button_three_double_press
-  - conditions: '{{ command == ''release'' }}'
+  - conditions: '{{ command == ''hold'' }}'
     sequence:
     - choose:
       - conditions: '{{ endpoint_id == 1 }}'
