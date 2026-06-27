@@ -1,0 +1,65 @@
+blueprint:
+  name: (Z2M) ThirdReality Button - 3RSB22BZ Multi-Action
+  description: >
+    Trigger actions from a Third Reality Smart Button (3RSB22BZ) using Zigbee2MQTT.
+    Supports single, double, hold, and release actions.
+  domain: automation
+  author: Rodney Smith
+  source_url: https://community.home-assistant.io/t/third-reality-smart-button-model-3rsb22bz-configurable-automation/993226
+
+  input:
+    button_action_sensor:
+      name: Zigbee2MQTT Action Sensor
+      description: Select the Z2M action sensor for the button.
+      selector:
+        entity:
+          integration: mqtt
+          domain: sensor
+
+    action_single:
+      name: Single Press Action
+      default: []
+      selector:
+        action: {}
+
+    action_double:
+      name: Double Press Action
+      default: []
+      selector:
+        action: {}
+
+    action_hold:
+      name: Hold Action
+      default: []
+      selector:
+        action: {}
+
+    action_release:
+      name: Release Action
+      default: []
+      selector:
+        action: {}
+
+mode: single
+
+trigger:
+  - platform: state
+    entity_id: !input button_action_sensor
+
+variables:
+  action: "{{ trigger.to_state.state }}"
+
+action:
+  - choose:
+
+      - conditions: "{{ action == 'single' }}"
+        sequence: !input action_single
+
+      - conditions: "{{ action == 'double' }}"
+        sequence: !input action_double
+
+      - conditions: "{{ action == 'hold' }}"
+        sequence: !input action_hold
+
+      - conditions: "{{ action == 'release' }}"
+        sequence: !input action_release

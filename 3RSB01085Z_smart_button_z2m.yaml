@@ -1,0 +1,114 @@
+blueprint:
+  name: (Z2M) ThirdReality Button - 3RSB01085Z Multi-Button Multi-Action
+  description: >
+    Trigger actions from a three-button Third Reality Smart Button (3RSB01085Z)
+    using Zigbee2MQTT. Supports single, double, and long press for all 3 buttons.
+  domain: automation
+  author: Rodney Smith
+  source_url: https://gist.github.com/Rodney-Smith/b09398bef9883f38c84eedbd03ad422d
+
+  input:
+    smart_button_zb2:
+      name: Smart Button ZB2 (Action Sensor)
+      description: Select the Zigbee2MQTT action sensor for the device.
+      selector:
+        entity:
+          integration: mqtt
+          domain: sensor
+
+    button_one_short_press:
+      name: Button 1 — single press
+      default: []
+      selector:
+        action: {}
+
+    button_one_double_press:
+      name: Button 1 — double press
+      default: []
+      selector:
+        action: {}
+
+    button_one_long_press:
+      name: Button 1 — long press
+      default: []
+      selector:
+        action: {}
+
+    button_two_short_press:
+      name: Button 2 — single press
+      default: []
+      selector:
+        action: {}
+
+    button_two_double_press:
+      name: Button 2 — double press
+      default: []
+      selector:
+        action: {}
+
+    button_two_long_press:
+      name: Button 2 — long press
+      default: []
+      selector:
+        action: {}
+
+    button_three_short_press:
+      name: Button 3 — single press
+      default: []
+      selector:
+        action: {}
+
+    button_three_double_press:
+      name: Button 3 — double press
+      default: []
+      selector:
+        action: {}
+
+    button_three_long_press:
+      name: Button 3 — long press
+      default: []
+      selector:
+        action: {}
+
+mode: restart
+max_exceeded: silent
+
+trigger:
+  - platform: state
+    entity_id: !input smart_button_zb2
+
+variables:
+  action: "{{ trigger.to_state.state }}"
+
+action:
+  - choose:
+
+      # Button 1
+      - conditions: "{{ action == 'button_1_single' }}"
+        sequence: !input button_one_short_press
+
+      - conditions: "{{ action == 'button_1_double' }}"
+        sequence: !input button_one_double_press
+
+      - conditions: "{{ action == 'button_1_hold' }}"
+        sequence: !input button_one_long_press
+
+      # Button 2
+      - conditions: "{{ action == 'button_2_single' }}"
+        sequence: !input button_two_short_press
+
+      - conditions: "{{ action == 'button_2_double' }}"
+        sequence: !input button_two_double_press
+
+      - conditions: "{{ action == 'button_2_hold' }}"
+        sequence: !input button_two_long_press
+
+      # Button 3
+      - conditions: "{{ action == 'button_3_single' }}"
+        sequence: !input button_three_short_press
+
+      - conditions: "{{ action == 'button_3_double' }}"
+        sequence: !input button_three_double_press
+
+      - conditions: "{{ action == 'button_3_hold' }}"
+        sequence: !input button_three_long_press
