@@ -4,7 +4,7 @@ blueprint:
   domain: automation
   author: Rodney Smith
   # Fork reference (used by Home Assistant UI)
-  source_url: 
+  source_url: https://gist.github.com/Rodney-Smith/ab266e1e9b6d9d8baeb991d11227d3d8
   # --- Custom metadata (not parsed by HA, but useful for maintainers) ---
   # upstream_url: https://community.home-assistant.io/t/zha-tuya-4-button-scene-switch-ts0044/265099
   input:
